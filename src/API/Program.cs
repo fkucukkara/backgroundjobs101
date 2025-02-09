@@ -7,7 +7,7 @@ builder.Services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
 builder.Services.AddHostedService<ConsumeScopedServiceHostedService>();
 
 builder.Services.AddHostedService<QueueProcessor>();
-builder.Services.AddSingleton<Channel<ChannelRequest>>(
+builder.Services.AddSingleton(
     _ => Channel.CreateUnbounded<ChannelRequest>(
         new UnboundedChannelOptions
         {
