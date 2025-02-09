@@ -6,15 +6,15 @@ builder.Services.AddHostedService<HostedService>();
 builder.Services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
 builder.Services.AddHostedService<ConsumeScopedServiceHostedService>();
 
-//builder.Services.AddHostedService<QueueProcessor>();
-//builder.Services.AddSingleton<Channel<ChannelRequest>>(
-//    _ => Channel.CreateUnbounded<ChannelRequest>(
-//        new UnboundedChannelOptions
-//        {
-//            SingleReader = true,
-//            SingleWriter = true,
-//            AllowSynchronousContinuations = false
-//        }));
+builder.Services.AddHostedService<QueueProcessor>();
+builder.Services.AddSingleton<Channel<ChannelRequest>>(
+    _ => Channel.CreateUnbounded<ChannelRequest>(
+        new UnboundedChannelOptions
+        {
+            SingleReader = true,
+            SingleWriter = true,
+            AllowSynchronousContinuations = false
+        }));
 
 var app = builder.Build();
 
