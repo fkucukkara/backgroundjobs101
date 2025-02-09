@@ -14,7 +14,7 @@ This project demonstrates the usage of different types of hosted services in an 
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/backgroundJobs101.git
+    git clone https://github.com/fkucukkara/backgroundjobs101.git
     cd backgroundJobs101/src/API
     ```
 
@@ -48,5 +48,6 @@ A background service that creates a scope and consumes the `ScopedProcessingServ
 A background service that reads messages from a channel and processes them.
 
 ## License
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License, which allows you to freely use, modify, and distribute the code. See the [`LICENSE`](LICENSE) file for full details.
