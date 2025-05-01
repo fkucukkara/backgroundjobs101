@@ -15,7 +15,7 @@ This project demonstrates the usage of different types of hosted services in an 
 1. Clone the repository:
     ```sh
     git clone https://github.com/fkucukkara/backgroundjobs101.git
-    cd backgroundJobs101/src/API
+    cd src\API
     ```
 
 2. Build and run the application:

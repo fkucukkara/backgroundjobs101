@@ -10,10 +10,7 @@ internal class ScopedProcessingService : IScopedProcessingService
     private int executionCount = 0;
     private readonly ILogger _logger;
 
-    public ScopedProcessingService(ILogger<ScopedProcessingService> logger)
-    {
-        _logger = logger;
-    }
+    public ScopedProcessingService(ILogger<ScopedProcessingService> logger) => _logger = logger;
 
     public async Task DoWork(CancellationToken stoppingToken)
     {

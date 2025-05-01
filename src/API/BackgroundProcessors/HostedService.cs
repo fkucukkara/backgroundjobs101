@@ -6,10 +6,7 @@ public class HostedService : IHostedService, IDisposable
     private readonly ILogger<HostedService> _logger;
     private Timer? _timer = null;
 
-    public HostedService(ILogger<HostedService> logger)
-    {
-        _logger = logger;
-    }
+    public HostedService(ILogger<HostedService> logger) => _logger = logger;
 
     public Task StartAsync(CancellationToken stoppingToken)
     {
@@ -31,8 +28,5 @@ public class HostedService : IHostedService, IDisposable
         return Task.CompletedTask;
     }
 
-    public void Dispose()
-    {
-        _timer?.Dispose();
-    }
+    public void Dispose() => _timer?.Dispose();
 }
