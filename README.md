@@ -1,6 +1,8 @@
 # BackgroundJobs101
 
-This project demonstrates the usage of different types of hosted services in an ASP.NET Core application. It includes examples of timed hosted services, scoped processing services, and queue processing using channels.
+![.NET](https://img.shields.io/badge/.NET-10.0-512BD4) ![SDK](https://img.shields.io/badge/SDK-10.0.203-512BD4)
+
+This project demonstrates the usage of different types of hosted services in an ASP.NET Core application targeting **.NET 10**. It includes examples of timed hosted services, scoped processing services, and queue processing using channels.
 
 ## Project Structure
 
@@ -9,6 +11,10 @@ This project demonstrates the usage of different types of hosted services in an 
 - **API/BackgroundProcessors/ScopedProcessingService.cs**: A scoped processing service that performs work in a loop until cancellation.
 - **API/BackgroundProcessors/ConsumeScopedServiceHostedService.cs**: A background service that consumes the scoped processing service.
 - **API/BackgroundProcessors/QueueProcessor.cs**: A background service that processes messages from a channel.
+
+## Requirements
+
+- [.NET 10 SDK (10.0.203+)](https://dotnet.microsoft.com/download/dotnet/10.0)
 
 ## How to Run
 
