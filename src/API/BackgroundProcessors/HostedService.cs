@@ -11,7 +11,7 @@ public class HostedService : IHostedService, IDisposable
     public Task StartAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Timed Hosted Service running.");
-        _timer = new Timer(DoWork, default, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+        _timer = new Timer(DoWork, default, TimeSpan.Zero, TimeSpan.FromSeconds(5.0));
         return Task.CompletedTask;
     }
 
