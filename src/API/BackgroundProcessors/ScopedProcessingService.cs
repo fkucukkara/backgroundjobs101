@@ -5,12 +5,9 @@ internal interface IScopedProcessingService
     Task DoWork(CancellationToken stoppingToken);
 }
 
-internal class ScopedProcessingService : IScopedProcessingService
+internal sealed class ScopedProcessingService(ILogger<ScopedProcessingService> logger) : IScopedProcessingService
 {
-    private int executionCount = 0;
-    private readonly ILogger _logger;
-
-    public ScopedProcessingService(ILogger<ScopedProcessingService> logger) => _logger = logger;
+    private int _executionCount;
 
     public async Task DoWork(CancellationToken stoppingToken)
     {
@@ -18,14 +15,14 @@ internal class ScopedProcessingService : IScopedProcessingService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                executionCount++;
-                _logger.LogInformation("Scoped Processing Service is working. Count: {Count}", executionCount);
+                var count = Interlocked.Increment(ref _executionCount);
+                logger.LogInformation("Scoped Processing Service is working. Count: {Count}", count);
                 await Task.Delay(5000, stoppingToken);
             }
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
-            _logger.LogInformation("Task was canceled (ScopedProcessingService).");
+            logger.LogInformation("Scoped Processing Service is stopping.");
         }
     }
 }

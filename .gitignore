@@ -1,7 +1,40 @@
 ﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+# .gitignore for .NET 10 / ASP.NET Core project
 ################################################################################
 
+# Visual Studio
 /.vs
-/src/API/bin/Debug/net9.0
-/src/API/obj
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output
+**/bin/
+**/obj/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/
+!**/packages/build/
+.nuget/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Publish
+**/publish/
+**/PublishProfiles/
+
+# Secrets / environment
+.env
+appsettings.Development.json

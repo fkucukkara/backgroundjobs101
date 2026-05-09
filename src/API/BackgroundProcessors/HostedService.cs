@@ -1,32 +1,21 @@
 ﻿namespace API.BackgroundProcessors;
 
-public class HostedService : IHostedService, IDisposable
+public class HostedService(ILogger<HostedService> logger) : BackgroundService
 {
-    private int executionCount = 0;
-    private readonly ILogger<HostedService> _logger;
-    private Timer? _timer = null;
+    private int _executionCount;
 
-    public HostedService(ILogger<HostedService> logger) => _logger = logger;
-
-    public Task StartAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Timed Hosted Service running.");
-        _timer = new Timer(DoWork, default, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-        return Task.CompletedTask;
-    }
+        logger.LogInformation("Timed Hosted Service running.");
 
-    private void DoWork(object? state)
-    {
-        var count = Interlocked.Increment(ref executionCount);
-        _logger.LogInformation("Timed Hosted Service is working. Count: {Count}", count);
-    }
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
 
-    public Task StopAsync(CancellationToken stoppingToken)
-    {
-        _logger.LogInformation("Timed Hosted Service is stopping.");
-        _timer?.Change(Timeout.Infinite, 0);
-        return Task.CompletedTask;
-    }
+        while (await timer.WaitForNextTickAsync(stoppingToken))
+        {
+            var count = Interlocked.Increment(ref _executionCount);
+            logger.LogInformation("Timed Hosted Service is working. Count: {Count}", count);
+        }
 
-    public void Dispose() => _timer?.Dispose();
+        logger.LogInformation("Timed Hosted Service is stopping.");
+    }
 }
