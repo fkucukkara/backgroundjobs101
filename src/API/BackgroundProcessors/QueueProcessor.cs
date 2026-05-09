@@ -2,44 +2,24 @@
 
 namespace API.BackgroundProcessors;
 
-public class QueueProcessor : BackgroundService
+public class QueueProcessor(Channel<ChannelRequest> channel, ILogger<QueueProcessor> logger) : BackgroundService
 {
-    private readonly ILogger<QueueProcessor> _logger;
-    private readonly Channel<ChannelRequest> _channel;
-
-    public QueueProcessor(Channel<ChannelRequest> channel, ILogger<QueueProcessor> logger)
-    {
-        _channel = channel;
-        _logger = logger;
-    }
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Queued Hosted Service is running.");
-        await BackgroundProcessing(stoppingToken);
-    }
+        logger.LogInformation("Queued Hosted Service is running.");
 
-    private async Task BackgroundProcessing(CancellationToken stoppingToken)
-    {
         try
         {
-            while (!stoppingToken.IsCancellationRequested)
+            await foreach (var workItem in channel.Reader.ReadAllAsync(stoppingToken))
             {
-                var workItem = await _channel.Reader.ReadAsync(stoppingToken);
                 await Task.Delay(1000, stoppingToken);
-                Console.WriteLine(workItem.Message);
+                logger.LogInformation("Processing message: {Message}", workItem.Message);
             }
         }
-        catch (Exception e) when (e is OperationCanceledException || e is TaskCanceledException)
+        catch (OperationCanceledException)
         {
-            _logger.LogInformation("Task was canceled (QueueProcessor).");
+            logger.LogInformation("Queued Hosted Service is stopping.");
         }
-    }
-
-    public override async Task StopAsync(CancellationToken stoppingToken)
-    {
-        _logger.LogInformation("Queued Hosted Service is stopping.");
-        await base.StopAsync(stoppingToken);
     }
 }
 
